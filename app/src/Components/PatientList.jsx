@@ -43,12 +43,17 @@ function PatientList() {
     
     return (
         <div>
-            <h1>Patients</h1>
-            {!isPatientFormVisible && <button onClick={togglePatientForm}>Add new patient</button>}
+            <div className="p-4 flex items-center justify-between">
+                <div><h1 className="font-semibold">Patients</h1></div>
+                <div><button className='bg-blue-700 text-white px-4 py-2 rounded-md' onClick={togglePatientForm}>Add new patient</button></div>
+            </div>
+            
             {isPatientFormVisible && <PatientForm onSavePatient={savePatientCallback} onCancel={togglePatientForm} />}
-            {patients.map((patient) => (
-                <PatientDetail key={patient.id} patient={patient} />
-            ))}
+            <div className="grid grid-cols-4 gap-4">
+                {patients.map((patient) => (
+                    <PatientDetail key={patient.id} patient={patient} />
+                ))}
+            </div>
         </div>
     );
 }

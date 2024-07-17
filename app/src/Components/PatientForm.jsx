@@ -1,16 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import isUrlHttp from 'is-url-http';
 
-function PatientForm({onSavePatient, onCancel}) {
+function PatientForm({onSavePatient, onCancel, patientToEdit}) {
 
     const [errors, setErrors] = useState({});
 
     const [patient, setPatient] = useState({
+        id: '',
         name: '',
         avatar: '',
         website: '',
-        description: ''
+        description: '',
+        createdAt: ''
     });
+
+    useEffect(() => {
+        if(patientToEdit) {
+            setPatient(patientToEdit)
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

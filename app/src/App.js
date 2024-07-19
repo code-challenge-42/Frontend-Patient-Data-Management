@@ -1,35 +1,27 @@
 import React, {useState, useEffect, createContext } from 'react';
-import moment from 'moment';
-import axios from 'axios';
 
 import PatientList from './Components/PatientList';
 import PatientForm from './Components/PatientForm';
 import Toast from './Components/Toast';
-
-const API_PATIENTS_URL = 'https://63bedcf7f5cfc0949b634fc8.mockapi.io/users';
+import { usePatients } from './hooks/usePatients';
 
 export const PatientsContext = createContext();
 
 function App() {
   const [toastData, setToastData] = useState({type: '', message: ''});
-  const [patientToEdit, setPatientToEdit] = useState(false);
-  const [isPatientFormVisible, setIsPatientFormVisible] = useState(false);
-  const [patients, setPatients] = useState([]);
-
+  const {
+    patients,
+    getPatients,
+    patientToEdit,
+    isPatientFormVisible,
+    savePatientCallback,
+    onEditPatient,
+    togglePatientForm
+  } = usePatients();
+  
   useEffect(() => {
       getPatients();
   }, []);
-
-  useEffect(() => {
-      if(!isPatientFormVisible)
-          setPatientToEdit(false)
-  }, [isPatientFormVisible]);
-
-  const getPatients = () => {
-      axios.get(API_PATIENTS_URL).then((response) => {
-          setPatients(response.data);
-      });
-  }
 
   const showToast = (type, message) => {
       setToastData({
@@ -45,37 +37,6 @@ function App() {
           message: ''
       });
   }
-
-  const togglePatientForm = () => setIsPatientFormVisible(!isPatientFormVisible);
-
-  const getMaxPatientId = () => Math.max(...patients.map(o => o.id));
-
-  const savePatientCallback = (patient) => {
-      if(patient.id !== '') {
-          const updatedPatientsList = patients.map((p) => p.id === patient.id ? patient : p);
-          setPatients(updatedPatientsList);
-      }
-      else {
-          const maxPatientId = getMaxPatientId();
-          const newPatient = {
-              ...patient,
-              id: maxPatientId + 1,
-              createdAt: moment().format()
-          }
-          
-          setPatients([
-              ...patients,
-              newPatient
-          ]);
-      }
-      showToast('success', 'User saved!');
-      togglePatientForm();
-  }
-
-  const onEditPatient = (patient) => {
-      setPatientToEdit(patient);
-      togglePatientForm();
-  };
 
   return (
     <PatientsContext.Provider value={patients}>

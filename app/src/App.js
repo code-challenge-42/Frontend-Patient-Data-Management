@@ -1,4 +1,3 @@
-import './App.css';
 import PatientList from './Components/PatientList'
 
 function App() {

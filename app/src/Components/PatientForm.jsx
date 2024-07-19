@@ -1,7 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import isUrlHttp from 'is-url-http';
+import { ToastContext } from '../App';
 
 function PatientForm({onSavePatient, onCancel, patientToEdit}) {
+    
+    const {showToast} = useContext(ToastContext);
 
     const [errors, setErrors] = useState({});
 
@@ -35,7 +38,10 @@ function PatientForm({onSavePatient, onCancel, patientToEdit}) {
         setErrors(newErrors);
  
         if (Object.keys(newErrors).length === 0) {
-            onSavePatient(patient)
+            const result = onSavePatient(patient);
+            if(result) {
+                showToast('success', 'User saved!');
+            }
         }
     };
 

@@ -13,7 +13,7 @@ function PatientDetail({patient, onEditPatient}) {
             <div className="flex flex-col items-center pb-10 pt-4">
                 <img src={patient.avatar} alt={patient.name} className="w-24 h-24 mb-3 rounded-full shadow-lg" />
                 <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{patient.name}</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400"><a href={patient.website} target='_blank'>{patient.website}</a></span>
+                <span className="text-sm text-gray-500 dark:text-gray-400"><a href={patient.website} target='_blank' rel="noreferrer">{patient.website}</a></span>
                 {displayAdditionalInfo && <div className='p-4'>
                     {patient.description}<br />
                     

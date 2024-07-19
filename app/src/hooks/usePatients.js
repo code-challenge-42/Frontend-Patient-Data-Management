@@ -42,8 +42,8 @@ export const usePatients = () => {
                 newPatient
             ]);
         }
-        //showToast('success', 'User saved!');
         togglePatientForm();
+        return true;
     }
 
     const onEditPatient = (patient) => {
